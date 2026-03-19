@@ -188,8 +188,8 @@ impl<'de> Visitor<'de> for TypeTagVisitor {
 #[derive(serde_derive::Serialize)]
 struct BinaryStructTagRef<'a> {
     address: &'a Address,
-    module: &'a Identifier,
-    name: &'a Identifier,
+    module: &'a String,
+    name: &'a String,
     type_params: &'a [TypeTag],
 }
 
@@ -215,8 +215,8 @@ impl Serialize for StructTag {
 #[derive(serde_derive::Deserialize)]
 struct BinaryStructTag {
     address: Address,
-    module: Identifier,
-    name: Identifier,
+    module: String,
+    name: String,
     type_params: Vec<TypeTag>,
 }
 
@@ -257,8 +257,8 @@ mod test {
     fn type_tag_fixture() {
         let expected = TypeTag::Struct(Box::new(StructTag {
             address: Address::from_str("0x1").unwrap(),
-            module: Identifier("Foo".into()),
-            name: Identifier("Bar".into()),
+            module: "Foo".to_string(),
+            name: "Bar".to_string(),
             type_params: vec![
                 TypeTag::Bool,
                 TypeTag::U8,

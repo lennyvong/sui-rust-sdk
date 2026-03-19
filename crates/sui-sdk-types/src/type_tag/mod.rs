@@ -232,19 +232,14 @@ impl std::ops::Deref for Identifier {
 #[cfg_attr(feature = "proptest", derive(test_strategy::Arbitrary))]
 pub struct StructTag {
     address: Address,
-    module: Identifier,
-    name: Identifier,
+    module: String,
+    name: String,
     #[cfg_attr(feature = "proptest", strategy(proptest::strategy::Just(Vec::new())))]
     type_params: Vec<TypeTag>,
 }
 
 impl StructTag {
-    pub fn new(
-        address: Address,
-        module: Identifier,
-        name: Identifier,
-        type_params: Vec<TypeTag>,
-    ) -> Self {
+    pub fn new(address: Address, module: String, name: String, type_params: Vec<TypeTag>) -> Self {
         Self {
             address,
             module,
@@ -257,11 +252,11 @@ impl StructTag {
         &self.address
     }
 
-    pub fn module(&self) -> &Identifier {
+    pub fn module(&self) -> &String {
         &self.module
     }
 
-    pub fn name(&self) -> &Identifier {
+    pub fn name(&self) -> &String {
         &self.name
     }
 
@@ -274,8 +269,8 @@ impl StructTag {
     pub fn sui() -> Self {
         Self {
             address: Address::TWO,
-            module: Identifier::new("sui").unwrap(),
-            name: Identifier::new("SUI").unwrap(),
+            module: "sui".to_string(),
+            name: "SUI".to_string(),
             type_params: vec![],
         }
     }
@@ -291,8 +286,8 @@ impl StructTag {
     pub fn coin(type_tag: TypeTag) -> Self {
         Self {
             address: Address::TWO,
-            module: Identifier::new("coin").unwrap(),
-            name: Identifier::new("Coin").unwrap(),
+            module: "coin".to_string(),
+            name: "Coin".to_string(),
             type_params: vec![type_tag],
         }
     }
@@ -300,8 +295,8 @@ impl StructTag {
     pub fn staked_sui() -> Self {
         Self {
             address: Address::THREE,
-            module: Identifier::new("staking_pool").unwrap(),
-            name: Identifier::new("StakedSui").unwrap(),
+            module: "staking_pool".to_string(),
+            name: "StakedSui".to_string(),
             type_params: vec![],
         }
     }
@@ -327,29 +322,29 @@ impl StructTag {
     pub(crate) fn balance_accumulator_field(coin_type: TypeTag) -> Self {
         let u128_type = Self {
             address: Address::TWO,
-            module: Identifier::from_static("accumulator"),
-            name: Identifier::from_static("U128"),
+            module: "accumulator".to_string(),
+            name: "U128".to_string(),
             type_params: vec![],
         };
 
         let balance_type = Self {
             address: Address::TWO,
-            module: Identifier::from_static("balance"),
-            name: Identifier::from_static("Balance"),
+            module: "balance".to_string(),
+            name: "Balance".to_string(),
             type_params: vec![coin_type],
         };
 
         let key_type = Self {
             address: Address::TWO,
-            module: Identifier::from_static("accumulator"),
-            name: Identifier::from_static("Key"),
+            module: "accumulator".to_string(),
+            name: "Key".to_string(),
             type_params: vec![balance_type.into()],
         };
 
         Self {
             address: Address::TWO,
-            module: Identifier::from_static("dynamic_field"),
-            name: Identifier::from_static("Field"),
+            module: "dynamic_field".to_string(),
+            name: "Field".to_string(),
             type_params: vec![key_type.into(), u128_type.into()],
         }
     }

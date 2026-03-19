@@ -547,13 +547,12 @@ impl crate::Address {
     #[cfg(feature = "serde")]
     #[cfg_attr(doc_cfg, doc(cfg(feature = "serde")))]
     pub fn derive_object_id(&self, key_type_tag: &crate::TypeTag, key_bytes: &[u8]) -> Self {
-        use crate::Identifier;
         use crate::StructTag;
 
         let struct_tag = StructTag::new(
             Address::from_static("0x2"),
-            Identifier::from_static("derived_object"),
-            Identifier::from_static("DerivedObjectKey"),
+            "derived_object".to_string(),
+            "DerivedObjectKey".to_string(),
             vec![key_type_tag.clone()],
         );
 

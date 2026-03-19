@@ -1,5 +1,4 @@
 use super::Address;
-use super::Identifier;
 use super::StructTag;
 use super::TypeTag;
 
@@ -117,9 +116,9 @@ fn struct_tag(input: &mut &str, depth: usize) -> ModalResult<StructTag> {
     let (address, _, module, _, name) = (
         parse_address.try_map(|s| s.parse::<Address>()),
         "::",
-        identifier.map(|ident| Identifier(ident.into())),
+        identifier.map(|ident| ident.to_string()),
         "::",
-        identifier.map(|ident| Identifier(ident.into())),
+        identifier.map(|ident| ident.to_string()),
     )
         .parse_next(input)?;
 
@@ -309,14 +308,6 @@ mod tests {
                     .replace("0x1", &Address::from_str("0x1").unwrap().to_string()),
                 "text: {text:?}, StructTag: {st:?}"
             );
-        }
-    }
-
-    #[test_strategy::proptest]
-    fn test_identifier_parsing_matches(s: String) {
-        match Identifier::new(&s) {
-            Ok(_) => assert!(is_valid_identifier(&s)),
-            Err(_) => assert!(!is_valid_identifier(&s)),
         }
     }
 
