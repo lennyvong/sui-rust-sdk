@@ -4,7 +4,6 @@ use super::Address;
 use super::CheckpointTimestamp;
 use super::EpochId;
 use super::GenesisObject;
-use super::Identifier;
 use super::Jwk;
 use super::JwkId;
 use super::ObjectReference;
@@ -1384,10 +1383,10 @@ pub struct MoveCall {
     pub package: Address,
 
     /// The specific module in the package containing the function.
-    pub module: Identifier,
+    pub module: String,
 
     /// The function to be called.
-    pub function: Identifier,
+    pub function: String,
 
     /// The type arguments to the function.
     #[cfg_attr(feature = "proptest", any(proptest::collection::size_range(0..=2).lift()))]
